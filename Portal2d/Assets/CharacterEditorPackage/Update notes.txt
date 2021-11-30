@@ -1,0 +1,66 @@
+1.1:
+ - Added script for one way colliders.
+   This requires the character's Collision Layermask to uncheck the "Ignore Raycast" layer.
+   This is the layer that is used to make the platform intangible while the character passes through it.
+   Prefabs in this project have been edited to make sure this layer is unchecked.
+
+ - Added DropDown module to work with one way colliders
+   Allows characters to jump down through a one way collider by pressing down and jump
+
+ - Added Swimming module and water object
+
+ - Update ClassicCharacter and DemoScene2 to demonstrate new abilities
+
+ - Fix maximum air speed being constrained to range 0-1
+
+ - Added longer demo scene (RunnerSceneDemo)
+
+ - Edits to jump functions to make them more sensible, add LaunchCharacter function for movement changes that are not jumping
+
+ - Add support for Unity-animated colliders by way of "AnimatedMover.cs"
+
+ - Moved collider in DemoScene to prevent clipping
+
+1.2:
+
+ - Ladder object and LadderClimb module. Moving ladders work as well.
+
+ - (Optional) allow characters on ladders to go both ways through OneWayPlatforms
+
+ - Update Swim module to work with colliders that move underwater (don't stick, but start swimming)
+
+ - Update OneWayPlatform to keep better track of ignored objects in case of reset.
+
+ - Update ClassicCharacter and DemoScene2 to demonstrate new abilities and game objects
+
+ - Add the AnimatedMover script that was forgotten in the previous update
+
+ - Some deadzone tweaks for animations
+ 
+ 1.3:
+
+ - Added new abilities; WallStick, WallClimb, NetClimb and Jetpack. Jumping from ladders now possible (optional). NetClimb will completely replace LadderClimb in the future, as a Ladder object can be created as a Net object with width 0.
+
+ - WallStick is activated by moving into a wall and holding the analogue stick/arrow keys in the direction of the wall
+
+ - WallClimb is activated by moving into a wall. Using the analogue stick a character can move up and down
+
+ - Added a new character (HeroCubeCharacter) and a new scene (2.5DDemoScene) to showcase 2.5D capabilities, as well as the WallStick and Jetpack module
+
+ - Added system for locking/unlocking abilities on level start or when entering a trigger, allows for pickups like the jetpack. Showcased in 2.5DDemoScene
+
+ - Add scripts for moving/teleporting a character along the Z axis to add more 2.5D gameplay opportunities. Showcased in 2.5DDemoScene
+
+ - Add scripts for rotating the world so that the character can turn corners. Showcased in 2.5DDemoScene
+
+ - Edited ClassicCharacter and DemoScene2 to showcase the new Net objects and NetClimb module
+
+ - Add a way to lock the movement of the character while another script is moving it (for example during a world rotation). Can be activated/deactivated via the CharacterControllerBase's LockMovement() method
+
+ - Edited SpriteAnimator to make more intuitive sense. Replace rotation on Y with scaling on X, as 3D animations will flip more accurately this way
+
+ - Clean up CapsuleTransform and deprecate CapsuleManipulator. Allow for easier position manipulation
+
+ - Fixed SpriteAnimator and FixedUpdateRenderInterpolator causing weird visual glitches when large movements (teleportation) occurred.
+
+ - Updated the ReadMe file to reflect current status
