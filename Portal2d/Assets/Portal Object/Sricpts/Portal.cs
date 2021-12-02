@@ -20,8 +20,8 @@ public class Portal : MonoBehaviour
 
         int layerNum = other.gameObject.layer;
 
-        // if hit by "Portal Transferable"
-        if (layerNum == 9)
+        // if hit by "Gravity Ball", use Unity Physics API
+        if (layerNum == 10)
         {
             GameObject go = other.gameObject;
             Rigidbody rig = go.GetComponent<Rigidbody>();
@@ -39,16 +39,17 @@ public class Portal : MonoBehaviour
         else if (layerNum == 31)
         {
             GameObject go = other.gameObject;
-            ControlledCollider controlledCollider = go.GetComponent<ControlledCollider>();
 
-            float speedMagnitude = controlledCollider.GetVelocity().magnitude;
+            Debug.Log("Player detected by portal.");
+
+            //ControlledCollider controlledCollider = go.GetComponent<ControlledCollider>();
+
+            //float speedMagnitude = controlledCollider.GetVelocity().magnitude;
 
             // move `go` position and set speed
-            go.transform.position = pair.desTransform.position;
-            go.transform.rotation = pair.desTransform.rotation;
-            //controlledCollider.SetPosition(pair.desTransform.position);
-            //controlledCollider.SetRotation(pair.desTransform.rotation);
-            controlledCollider.SetVelocity(speedMagnitude * pair.getPortalDirection());  //implicitly converted to Vector2
+            //go.transform.position = pair.desTransform.position;
+            //go.transform.rotation = pair.desTransform.rotation;
+            //controlledCollider.SetVelocity(speedMagnitude * pair.getPortalDirection());  //implicitly converted to Vector2
         }
     }
 }
