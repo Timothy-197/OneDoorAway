@@ -1,5 +1,5 @@
 # Portal2d
-
+--------------------------------------------------------------------
 ### Layer设置标准
 
 * 每个场景中的 GameObject 都应该有一个 layer
@@ -8,7 +8,7 @@
   * Bad Example: `Portal Transferable`, `Player Collectable`
 
 
-
+--------------------------------------------------------------------
 ### Character Controller
 Everything realting to the player control should be placed under the ```Player Control``` folder
 #### Player Controller parameters
