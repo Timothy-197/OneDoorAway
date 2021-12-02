@@ -8,6 +8,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AdvanceMove : MonoBehaviour
-{ 
-
+{
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        Debug.Log("reset velocity");
+    //        BasicMove.Instance.SetVelocity(new Vector3(0, 0.5f, 0));
+    //    }
+    //}
 }

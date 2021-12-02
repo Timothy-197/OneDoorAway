@@ -12,37 +12,47 @@ public class BasicMove : MonoBehaviour
     public float jumpSpeed;
     public float MoveSpeed;
     public float MaxSpeed;
-    public LayerMask groundLayer;
     public float gravity;
-    
+    public float headBounceSpeed;
+    public LayerMask groundLayer;
+
     private CharacterController ch;
     private Transform tr;
     private Animator ani;
     private float horizontalInput; // horizontal direction
     private Vector3 horizopntalDir; // horizontal direction
     private Transform foot; // the foot position
+    private Transform head;
     private Vector3 gravityDir; // gravity direction
     private float hitDistance; // the distance which can be treated as hit
-    private float verticalVelo; // vertical velocity (to simulate gravity)
+    private float verticalVelo; // vertical velocity (to simulate gravity) -> relative to the World space
+    private float horizontalVelo; // horizontal velocity -> relative to the player
 
     private bool isgrounded;
     private bool shouldJump;
     private bool isJumping;
+    private bool justJumped;
 
     private float jumpSpeedBalance; // a float to balance the jump speed
 
+    public static BasicMove Instance;
+
     private void Start()
     {
+        Instance = this; // player singleton
+
         ch = this.GetComponent<CharacterController>();
         tr = this.transform;
         ani = tr.GetChild(0).gameObject.GetComponent<Animator>();
         foot = tr.GetChild(1).gameObject.transform;
+        head = tr.GetChild(2).gameObject.transform;
         gravityDir = new Vector3(0, -1f, 0);
         hitDistance = 0.3f;
         isgrounded = false;
         shouldJump = false;
         isJumping = false;
         jumpSpeedBalance = 0.05f;
+        justJumped = false;
     }
 
     private void Update()
@@ -51,26 +61,41 @@ public class BasicMove : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         ani.SetFloat("RunSpeed", Mathf.Abs(horizontalInput));
 
+        // check head hit
+        if (isHeadGroundCheck()) verticalVelo = headBounceSpeed; // reset verical velocity
+
         // check ground hit, simlulate gravity
         isgrounded = isGroundedCheck();
         if (isgrounded) {
+            if (horizontalInput != 0) 
+                horizontalVelo = MoveSpeed * Time.deltaTime * horizontalInput;
+            else horizontalVelo = 0;
             ani.SetBool("JumpUp", false);
             ani.SetBool("JumpDown", false);
-            verticalVelo = 0; 
+            if (justJumped) {
+                justJumped = false;
+                verticalVelo = 0; // clear the vertical velocity when just jumped
+            }
+            if (verticalVelo > 0) verticalVelo = 0;
         }
         else
         {
+            // adjust the player tilt angle
+            tr.up = -gravityDir;
+            ch.transform.up = -gravityDir;
+
+            // do not change horiaontal velocity
             // control animations in the air
             ani.SetFloat("RunSpeed", 0);
             if (verticalVelo < MaxSpeed) verticalVelo += gravity * Time.deltaTime;
             else verticalVelo = MaxSpeed;
             // jump animation
-            if (verticalVelo < 0)
+            if (verticalVelo < 0) // jump up
             {
                 ani.SetBool("JumpDown", false);
                 ani.SetBool("JumpUp", true);
             }
-            else {
+            else { // jump down
                 if (isJumping)
                 {
                     ani.SetBool("UpToDown", true);
@@ -86,9 +111,12 @@ public class BasicMove : MonoBehaviour
 
 
         // jump input
-        if (Input.GetKeyDown(KeyCode.Space) && isgrounded) { // jump when on the ground
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isgrounded) { // jump when on the ground
             shouldJump = true;
         }
+
+        //Debug.Log("the horizontal velocity is: " + horizontalVelo);
+        //Debug.Log("the vertical velocity is: " + verticalVelo);
     }
 
     private void FixedUpdate()
@@ -98,10 +126,8 @@ public class BasicMove : MonoBehaviour
             verticalVelo = -jumpSpeed * jumpSpeedBalance;
             shouldJump = false;
             isJumping = true;
+            justJumped = true;
         }
-
-        // simulate gravity
-        ch.Move(gravityDir * verticalVelo); // move direction is determined by the grivaty direction
 
         // turn direction
         if (horizontalInput > 0)
@@ -112,14 +138,17 @@ public class BasicMove : MonoBehaviour
             tr.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
         }
 
-        // horizontal move
+        // vertical movement
+        ch.Move(gravityDir * verticalVelo); // move direction is determined by the grivaty direction
 
-        horizopntalDir = Vector3.Cross(tr.up, tr.forward) * horizontalInput;
-        ch.Move(horizopntalDir*MoveSpeed*Time.deltaTime);
+        // horizontal move
+        horizopntalDir = Vector3.Cross(tr.up, tr.forward);
+        ch.Move(horizopntalDir * horizontalVelo);
+
     }
 
-    // the function:
-    // 1. perform isGpunded checkk
+    // the functions:
+    // 1. perform isGrounded check / check if head hits the ground
     // 2. adjust the player's transform to the normal of the ground
     private bool isGroundedCheck()
     {
@@ -136,4 +165,38 @@ public class BasicMove : MonoBehaviour
         }
         return false;
     }
+    private bool isHeadGroundCheck() // check the ground upwards
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(new Ray(head.position, tr.up), out hit, hitDistance, groundLayer))
+        {
+            //Debug.Log("hit the head!");
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * Acquire the speed of the player
+     * ---------------------------------
+     * return: scalar value of the player's velocity
+     */
+    public float GetSpeed()
+    {
+        return (Vector3.Cross(tr.up, tr.forward) * horizontalVelo + Vector3.up * verticalVelo).magnitude;
+    }
+
+    /*
+     * Set new speed for the player
+     * ------------------------------------------
+     * parameter: (Vector3) the velocity set to the player
+     * x: right is positive
+     * y: up is positive
+     */
+    public void SetVelocity(Vector3 newVelo)
+    {
+        horizontalVelo = newVelo.x;
+        verticalVelo = -newVelo.y;
+    }
+
 }
