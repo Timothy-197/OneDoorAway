@@ -11,9 +11,8 @@ public class BasicMove : MonoBehaviour
 {
     public float jumpSpeed;
     public float MoveSpeed;
-    public float inAirSpeed;
+    public float jumpBalance;
     public float MaxSpeed;
-    public float inAirMaxSpeed;
     public float gravity;
     public float headBounceSpeed;
     public float hitDistance; // the distance which can be treated as hit
@@ -88,7 +87,7 @@ public class BasicMove : MonoBehaviour
         }
 
         // horizontal move input
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
         ani.SetFloat("RunSpeed", Mathf.Abs(horizontalInput));
 
         // check head hit
@@ -104,7 +103,7 @@ public class BasicMove : MonoBehaviour
             }
             if (verticalVelo > 0) verticalVelo = 0;
             if (horizontalInput != 0) 
-                horizontalVelo = MoveSpeed * Time.deltaTime * horizontalInput;
+                horizontalVelo = MoveSpeed * horizontalInput;
             else horizontalVelo = 0;
             ani.SetBool("JumpUp", false);
             ani.SetBool("JumpDown", false);
@@ -157,6 +156,7 @@ public class BasicMove : MonoBehaviour
         // perform jump
         if (shouldJump) { 
             verticalVelo = -jumpSpeed * jumpSpeedBalance;
+            horizontalVelo *= jumpBalance;
             shouldJump = false;
             isJumping = true;
             justJumped = true;
@@ -175,12 +175,12 @@ public class BasicMove : MonoBehaviour
 
         // vertical movement
         //ch.Move(gravityDir * verticalVelo); // move direction is determined by the grivaty direction
-        tr.Translate(gravityDir * verticalVelo * Time.deltaTime, Space.World);
+        tr.Translate(gravityDir * verticalVelo * Time.fixedDeltaTime, Space.World);
 
         // horizontal move
         horizontalDir = Vector3.Cross(tr.up, tr.forward);
         //ch.Move(horizopntalDir * horizontalVelo);
-        tr.Translate(horizontalDir * horizontalVelo * Time.deltaTime, Space.World);
+        tr.Translate(horizontalDir * horizontalVelo * Time.fixedDeltaTime, Space.World);
     }
 
     // Ground check functions
