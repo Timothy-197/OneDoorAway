@@ -11,10 +11,18 @@ public class BasicMove : MonoBehaviour
 {
     public float jumpSpeed;
     public float MoveSpeed;
+    public float inAirSpeed;
     public float MaxSpeed;
+    public float inAirMaxSpeed;
     public float gravity;
     public float headBounceSpeed;
+    public float hitDistance; // the distance which can be treated as hit
+    [Tooltip("the layer of the ground objects")]
     public LayerMask groundLayer;
+    [Tooltip("the layer of the portal objects")]
+    public LayerMask objectLayer;
+    [Tooltip("the max distance that player can pick up an object")]
+    public float overlapR;
 
     //private CharacterController ch;
     private Transform tr;
@@ -24,7 +32,6 @@ public class BasicMove : MonoBehaviour
     private Transform foot; // the foot position
     private Transform head;
     private Vector3 gravityDir; // gravity direction
-    public float hitDistance; // the distance which can be treated as hit
     private float verticalVelo; // vertical velocity (to simulate gravity) -> relative to the World space
     private float horizontalVelo; // horizontal velocity -> relative to the player
 
@@ -32,6 +39,10 @@ public class BasicMove : MonoBehaviour
     private bool shouldJump;
     private bool isJumping;
     private bool justJumped;
+
+    private bool isCarrying; // indicates whether the player is carrying an object
+    private bool isObjDetected; // whether an object is detected by the player
+    private GameObject carryObj; // object to carray
 
     private float jumpSpeedBalance; // a float to balance the jump speed
 
@@ -53,10 +64,29 @@ public class BasicMove : MonoBehaviour
         isJumping = false;
         jumpSpeedBalance = 1f;
         justJumped = false;
+        isCarrying = false;
+        isObjDetected = false;
+        carryObj = null;
     }
 
     private void Update()
     {
+        // check if there is object to carry + carry the object
+        if (isCarrying) carryObj.transform.position = tr.GetChild(3).transform.position;
+        DetectBlock();
+
+        // check if place the object
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
+            if (isCarrying)
+            { // when carrying, place down the object
+                isCarrying = false;
+                // release the object
+            }
+            else { // if not carrying, pick up the object if an object is detected
+                if (isObjDetected) CarryObj();
+            }
+        }
+
         // horizontal move input
         horizontalInput = Input.GetAxis("Horizontal");
         ani.SetFloat("RunSpeed", Mathf.Abs(horizontalInput));
@@ -85,7 +115,9 @@ public class BasicMove : MonoBehaviour
             tr.up = -gravityDir;
             //ch.transform.up = -gravityDir;
 
-            // do not change horiaontal velocity
+            // change horiaontal velocity
+            //if (horizontalVelo>-inAirMaxSpeed && horizontalVelo<inAirMaxSpeed) horizontalVelo += inAirSpeed * Time.deltaTime * horizontalInput;
+
             // control animations in the air
             ani.SetFloat("RunSpeed", 0);
             if (verticalVelo < MaxSpeed) verticalVelo += gravity * Time.deltaTime;
@@ -116,8 +148,8 @@ public class BasicMove : MonoBehaviour
             shouldJump = true;
         }
 
-        Debug.Log("the horizontal velocity is: " + horizontalVelo);
-        Debug.Log("the vertical velocity is: " + verticalVelo);
+        //Debug.Log("the horizontal velocity is: " + horizontalVelo);
+        //Debug.Log("the vertical velocity is: " + verticalVelo);
     }
 
     private void FixedUpdate()
@@ -131,12 +163,14 @@ public class BasicMove : MonoBehaviour
         }
 
         // turn direction
-        if (horizontalInput > 0)
+        if (horizontalInput > 0) // child 0: the sprite, child 3: the player hook that carries tools
         {
             tr.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
+            tr.GetChild(3).localPosition = new Vector3(0.6f, -0.1f, 0);
         }
         else if (horizontalInput < 0) {
             tr.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
+            tr.GetChild(3).localPosition = new Vector3(-0.6f, -0.1f, 0);
         }
 
         // vertical movement
@@ -149,7 +183,7 @@ public class BasicMove : MonoBehaviour
         tr.Translate(horizontalDir * horizontalVelo * Time.deltaTime, Space.World);
     }
 
-    // the functions:
+    // Ground check functions
     // 1. perform isGrounded check / check if head hits the ground
     // 2. adjust the player's transform to the normal of the ground
     private bool isGroundedCheck()
@@ -177,6 +211,43 @@ public class BasicMove : MonoBehaviour
         }
         return false;
     }
+
+    // movable objects detect function:
+    // detect the closest movable objects around and trigger the UI that prompts player to pick
+    // return value: the collider of detected object
+    private void DetectBlock() 
+    {
+        var hits = Physics2D.OverlapCircleAll(tr.position, overlapR, objectLayer);
+        if (hits.Length == 0) {
+            PlayerEvents.current.CarryObject();
+            return; 
+        }
+        else
+        {
+            Debug.Log("detect block!");
+            if (!isCarrying)
+            {
+                isObjDetected = true;
+                PlayerEvents.current.DetectObject();
+            } // detect the object if the player does not carry an object
+        }
+    }
+    public void CarryObj() // call this to pick up the object
+    {
+        PlayerEvents.current.CarryObject(); // hide ui
+        var hits = Physics2D.OverlapCircleAll(tr.position, overlapR, objectLayer);
+        int result = 0;
+        float minD = Vector2.Distance(tr.position, hits[0].transform.position);
+        for (int i = 1; i < hits.Length; i++)
+        {
+            if (Vector2.Distance(tr.position, hits[i].transform.position) < minD) result = i;
+        }
+        // set indicators an the carrying object
+        isCarrying = true;
+        isObjDetected = false;
+        carryObj = hits[result].gameObject;
+    }
+
 
     /*
      * Acquire the speed of the player

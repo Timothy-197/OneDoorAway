@@ -9,12 +9,29 @@ using UnityEngine;
 
 public class AdvanceMove : MonoBehaviour
 {
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        Debug.Log("reset velocity");
-    //        BasicMove.Instance.SetVelocity(new Vector3(0, 0.5f, 0));
-    //    }
-    //}
+    public GameObject pickUpText;
+    void Start()
+    {
+        PlayerEvents.current.onDetectObject += showPickUpText;
+        PlayerEvents.current.onCarryObject += hidePickUpText;
+        pickUpText.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        PlayerEvents.current.onDetectObject -= showPickUpText;
+        PlayerEvents.current.onCarryObject += hidePickUpText;
+    }
+
+    private void showPickUpText()
+    {
+        //Debug.Log("show called!");
+        pickUpText.SetActive(true);
+    }
+
+    private void hidePickUpText()
+    {
+        //Debug.Log("hide called!");
+        pickUpText.SetActive(false);
+    }
 }
