@@ -1,5 +1,5 @@
 # Portal2d
---------------------------------------------------------------------
+
 ### Layer设置标准
 
 * 每个场景中的 GameObject 都应该有一个 layer
@@ -9,13 +9,13 @@
 
 ### Layers
 
-* Ground: 地面物体，用于地面检测
+* Ground: 地面物体，用于地面检测，放置Portal
 * gravity block: 玩家可以捡起的物体
 
 
---------------------------------------------------------------------
+---
 ### Character Controller
-Everything realting to the player control should be placed under the ```Player Control``` folder
+Everything realting to the player control should be placed under the `Player Control` folder
 
 #### Keyboard Control
 
@@ -37,10 +37,10 @@ Everything realting to the player control should be placed under the ```Player C
   > 1. the move speeds in the inspector is not actual speed in the game. However, the max speed should be the actual speed in the game.
 
 #### Get and set player velocity
-* ```public float GetSpeed()```
+* `public float GetSpeed()`
  得到速度大小(magnitude)
 
-* ```public void SetVelocity(Vector3 newVelo)```
+* `public void SetVelocity(Vector3 newVelo)`
  设置速度大小: 传入参数 -> 速度(**vector**)
 
  你也可以输入一个Vector2的argument，毕竟这是个2d游戏
@@ -49,7 +49,7 @@ Everything realting to the player control should be placed under the ```Player C
  直接如此调用：
 
   ```c#
- BasicMove.Instance.SetVelocity(new Vector3(0, 0.5f, 0));
+   BasicMove.Instance.SetVelocity(new Vector3(0, 0.5f, 0));
   ```
 
  

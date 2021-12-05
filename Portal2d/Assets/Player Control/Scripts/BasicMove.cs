@@ -224,7 +224,7 @@ public class BasicMove : MonoBehaviour
         }
         else
         {
-            Debug.Log("detect block!");
+            //Debug.Log("detect block!");
             if (!isCarrying)
             {
                 isObjDetected = true;
