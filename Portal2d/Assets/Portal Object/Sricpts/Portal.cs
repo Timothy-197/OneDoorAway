@@ -10,7 +10,7 @@ public class Portal : MonoBehaviour
     public Transform desTransform;          // set in inspector (prefab)
 
     [Tooltip("Transferable Object implemented by Unity Physics")]
-    public LayerMask transferableObjectUnityPhysics;            // set in inspector (prefab) - those objects should have Rigidbody
+    public LayerMask transferableObjectUnityPhysics;            // set in inspector (prefab) - those objects should have Rigidbody2D
     [Tooltip("Transferable Object implemented by Customized Physics")]
     public LayerMask transferableObjectCustomizedPhysics;       // set in inspector (prefab) - those objects should have BasicMove (implemented by ourselves)
 
@@ -25,23 +25,25 @@ public class Portal : MonoBehaviour
         return ((layerMask.value & (1 << layerNum)) != 0);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (pair == null) return;
 
-        int layerNum = other.gameObject.layer;
+        int layerNum = collision.gameObject.layer;
 
         // if hit by "Gravity Ball", use Unity Physics API
         if (IsInLayerMask(layerNum, transferableObjectUnityPhysics))
         {
-            GameObject go = other.gameObject;
-            Rigidbody rig = go.GetComponent<Rigidbody>();
+            //Debug.Log("Detect gravity ball");
+
+            GameObject go = collision.gameObject;
+            Rigidbody2D rig = go.GetComponent<Rigidbody2D>();
 
             float speedMagnitude = rig.velocity.magnitude;
 
             // move `go` position and set speed
             rig.position = pair.desTransform.position;
-            rig.rotation = pair.desTransform.rotation;
+            //rig.rotation = pair.desTransform.rotation;
             rig.velocity = speedMagnitude * pair.getPortalDirection();
         }
 
@@ -49,7 +51,9 @@ public class Portal : MonoBehaviour
         // "player" is not implemented with Unity Physics
         else if (IsInLayerMask(layerNum, transferableObjectCustomizedPhysics))
         {
-            GameObject go = other.gameObject;
+            //Debug.Log("Detect player");
+
+            GameObject go = collision.gameObject;
 
             //ControlledCollider controlledCollider = go.GetComponent<ControlledCollider>();
             BasicMove basicMove = go.GetComponent<BasicMove>();
