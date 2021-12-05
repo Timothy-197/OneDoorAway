@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayerPlacePortal : MonoBehaviour
 {
+    static Dictionary<int, Color> portalColorMap = new Dictionary<int, Color> {
+        {0, new Color(1, 0, 0) }, {1, new Color(0, 0, 1) }
+    };
+
     public GameObject portalPrefab;             // set in inspector
     public GameObject bulletPrefab;             // set in inspector
     public Transform firePoint;                 // set in inspector
@@ -53,12 +57,22 @@ public class PlayerPlacePortal : MonoBehaviour
 
     private void Shoot(int index)
     {
+        // check invalid input
+        if (index != 0 && index != 1)
+        {
+            Debug.Log("InstantiatePortal: invalid portalIndex");
+            return;
+        }
+
         Vector3 destination = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
         Vector3 direction = (destination - transform.position).normalized;
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(direction * bulletSpeed, ForceMode2D.Impulse);
+
+        // change color of the bullet
+        bullet.GetComponent<SpriteRenderer>().color = portalColorMap[index];
 
         bullet.GetComponent<Bullet>().portalIndex = index;
 
@@ -113,6 +127,9 @@ public class PlayerPlacePortal : MonoBehaviour
             Quaternion toRotation = Quaternion.FromToRotation(portalObj.transform.right, hit.normal);
             portalObj.transform.rotation = toRotation;
 
+            // set color of instantiated portal
+            portalObj.GetComponent<SpriteRenderer>().color = portalColorMap[portalIndex];
+
             // update `portals` array
             portals[portalIndex] = portalObj.GetComponent<Portal>();
 
@@ -129,7 +146,7 @@ public class PlayerPlacePortal : MonoBehaviour
             }
         }
         else
-            Debug.LogError("InstantiatePortal: raycast not hit");
+            Debug.Log("InstantiatePortal: raycast not hit");
 
     }
 }
