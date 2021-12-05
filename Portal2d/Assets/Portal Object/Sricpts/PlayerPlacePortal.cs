@@ -9,6 +9,7 @@ public class PlayerPlacePortal : MonoBehaviour
         {0, new Color(1, 0, 0) }, {1, new Color(0, 0, 1) }
     };
 
+    public bool allowedToPlacePortal = true;    // reset to false in some level
     public GameObject portalPrefab;             // set in inspector
     public GameObject bulletPrefab;             // set in inspector
     public Transform firePoint;                 // set in inspector
@@ -45,11 +46,11 @@ public class PlayerPlacePortal : MonoBehaviour
         //float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && allowedToPlacePortal)
         {
             Shoot(0);
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1) && allowedToPlacePortal)
         {
             Shoot(1);
         }
