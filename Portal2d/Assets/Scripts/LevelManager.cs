@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
     public static LevelManager _instance;           //singleton
     public static int currentLevel { get; set; }
 
+    public Animator animator;                       // set in inspector
+
     static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
         {0, "Level00" }, {1, "Level01" }, {2, "Level02" }
     };
@@ -33,8 +35,20 @@ public class LevelManager : MonoBehaviour
 
     public void loadLevel(int levelIndex)
     {
+        // player fade out animation
+        if (animator != null)
+            animator.SetTrigger("FadeOut");
+        else
+            Debug.Log("LevelManager: animator is not set.");
+
         currentLevel = levelIndex;
 
+        StartCoroutine("WaitAndChangeLoadScene", levelIndex);
+    }
+
+    IEnumerator WaitAndChangeLoadScene(int levelIndex)
+    {
+        yield return new WaitForSeconds(0.9f);
         SceneManager.LoadScene(levelNameMapping[levelIndex], LoadSceneMode.Single);
     }
 
