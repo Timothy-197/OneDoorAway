@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public static int currentLevel { get; set; }
 
     static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
-        {0, "Level00" }
+        {0, "Level00" }, {1, "Level01" }
     };
 
     private void Awake()
@@ -36,5 +36,23 @@ public class LevelManager : MonoBehaviour
         currentLevel = levelIndex;
 
         SceneManager.LoadScene(levelNameMapping[levelIndex], LoadSceneMode.Single);
+    }
+
+    public void loadNextLevel()
+    {
+        if (levelNameMapping.ContainsKey(currentLevel + 1))
+        {
+            loadLevel(currentLevel + 1);
+        } 
+        else
+        {
+            Debug.Log("No next level available. Reload current level");
+            loadLevel(currentLevel);
+        }
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
