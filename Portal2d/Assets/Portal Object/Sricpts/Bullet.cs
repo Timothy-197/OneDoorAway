@@ -35,5 +35,10 @@ public class Bullet : MonoBehaviour
             playerPlacePortal.InstantiatePortal(portalIndex, this.transform.position);
             Destroy(this.gameObject);
         }
+        // if hit other objects (other than player), destroy itself
+        else if (layerNum != 31)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

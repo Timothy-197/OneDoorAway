@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public static int currentLevel { get; set; }
 
     static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
-        {0, "Level00" }, {1, "Level01" }
+        {0, "Level00" }, {1, "Level01" }, {2, "Level02" }
     };
 
     private void Awake()
