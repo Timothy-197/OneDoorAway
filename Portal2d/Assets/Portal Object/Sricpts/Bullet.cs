@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 {
     public LayerMask canPortalBePlaced;         // set in inspector
 
+    public int portalIndex { get; set; }
+
     public bool IsInLayerMask(int layerNum, LayerMask layerMask)
     {
         return ((layerMask.value & (1 << layerNum)) != 0);
@@ -29,6 +31,8 @@ public class Bullet : MonoBehaviour
 
         if (IsInLayerMask(layerNum, canPortalBePlaced))
         {
+            PlayerPlacePortal playerPlacePortal = GameObject.Find("Player").GetComponent<PlayerPlacePortal>();
+            playerPlacePortal.InstantiatePortal(portalIndex, collision, this.transform);
             Destroy(this.gameObject);
         }
     }
