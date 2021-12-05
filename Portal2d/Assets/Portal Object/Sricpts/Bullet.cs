@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
         if (IsInLayerMask(layerNum, canPortalBePlaced))
         {
             PlayerPlacePortal playerPlacePortal = GameObject.Find("Player").GetComponent<PlayerPlacePortal>();
-            playerPlacePortal.InstantiatePortal(portalIndex, collision, this.transform);
+            playerPlacePortal.InstantiatePortal(portalIndex, this.transform.position);
             Destroy(this.gameObject);
         }
     }
