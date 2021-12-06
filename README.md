@@ -70,11 +70,14 @@ Everything realting to the player control should be placed under the `Player Con
 
 #### Trigger
 
-* Press-down trigger:：有重物压在其上视为触发开关
+* Type1: Press-down trigger: 有重物压在其上视为触发开关
+* Type2: Toggle trigger: player can trigger the toggle on or off
 
 #### How to set up?
 
 1. Trigger:
+
+   1.1. Door trigger / Door toggle
 
    ![image-20211206190214134](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190214134.png)
 
