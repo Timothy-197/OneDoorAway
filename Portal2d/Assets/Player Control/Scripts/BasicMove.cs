@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class BasicMove : MonoBehaviour
 {
+    private Rigidbody2D rb;
+
     public float jumpSpeed;
     public float MoveSpeed;
     public float jumpBalance;
@@ -66,10 +68,15 @@ public class BasicMove : MonoBehaviour
         isCarrying = false;
         isObjDetected = false;
         carryObj = null;
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
+        if (rb.velocity.magnitude > 0)
+            rb.velocity = Vector2.zero;
+
         // check if there is object to carry + carry the object
         if (isCarrying) carryObj.transform.position = tr.GetChild(3).transform.position;
         DetectBlock();

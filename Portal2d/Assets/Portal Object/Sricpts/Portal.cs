@@ -25,7 +25,7 @@ public class Portal : MonoBehaviour
         return ((layerMask.value & (1 << layerNum)) != 0);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void portalTransfer(Collider2D collision)
     {
         if (pair == null) return;
 
@@ -67,5 +67,15 @@ public class Portal : MonoBehaviour
             basicMove.SetVelocity(speedMagnitude * pair.getPortalDirection());
             //controlledCollider.SetVelocity(speedMagnitude * pair.getPortalDirection());  //implicitly converted to Vector2
         }
+    }
+
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    portalTransfer(collision);
+    //}
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        portalTransfer(collision);
     }
 }

@@ -33,7 +33,13 @@ public class Glass : MonoBehaviour
         {
             BasicMove basicMove = collision.gameObject.GetComponent<BasicMove>();
             Vector2 vel = basicMove.GetSpeed_Vector();
-            breakGlass(vel);
+
+            //player cannot break glass
+            float normalVel = Vector3.Project(vel, transform.right).magnitude;
+            if (normalVel > minSpeedToBreak)
+                LevelManager._instance.RestartCurrentLevel();
+
+                breakGlass(vel);
             basicMove.SetVelocity(vel);
         }
 
