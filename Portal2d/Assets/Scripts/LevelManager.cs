@@ -49,6 +49,7 @@ public class LevelManager : MonoBehaviour
     IEnumerator WaitAndChangeLoadScene(int levelIndex)
     {
         yield return new WaitForSeconds(0.9f);
+        animator.ResetTrigger("FadeOut");
         SceneManager.LoadScene(levelNameMapping[levelIndex], LoadSceneMode.Single);
     }
 
