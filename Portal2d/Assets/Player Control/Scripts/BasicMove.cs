@@ -25,6 +25,10 @@ public class BasicMove : MonoBehaviour
     public LayerMask objectLayer;
     [Tooltip("the max distance that player can pick up an object")]
     public float overlapR;
+    //[Tooltip("max horizontal speed in the air")]
+    //public float inAirMaxHoriSpeed;
+    //[Tooltip("horizontal speed change in the air")]
+    //public float inAirDeltaSpeed;
 
     //private CharacterController ch;
     private Transform tr;
@@ -130,10 +134,8 @@ public class BasicMove : MonoBehaviour
 
             // adjust the player tilt angle
             tr.up = -gravityDir;
-            //ch.transform.up = -gravityDir;
-
-            // change horiaontal velocity
-            //if (horizontalVelo>-inAirMaxSpeed && horizontalVelo<inAirMaxSpeed) horizontalVelo += inAirSpeed * Time.deltaTime * horizontalInput;
+            
+            horizontalVelo = horizontalInput * jumpBalance * MoveSpeed;
 
             // control animations in the air
             ani.SetFloat("RunSpeed", 0);
@@ -166,7 +168,7 @@ public class BasicMove : MonoBehaviour
             shouldJump = true;
         }
 
-        //Debug.Log("the horizontal velocity is: " + horizontalVelo);
+        Debug.Log("the horizontal velocity is: " + horizontalVelo);
         //Debug.Log("the vertical velocity is: " + verticalVelo);
     }
 
@@ -175,7 +177,7 @@ public class BasicMove : MonoBehaviour
         // perform jump
         if (shouldJump) { 
             verticalVelo = -jumpSpeed * jumpSpeedBalance;
-            horizontalVelo *= jumpBalance;
+            //horizontalVelo *= jumpBalance;
             shouldJump = false;
             isJumping = true;
             justJumped = true;
