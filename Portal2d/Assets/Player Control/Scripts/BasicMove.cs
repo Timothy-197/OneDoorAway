@@ -44,8 +44,8 @@ public class BasicMove : MonoBehaviour
     private bool isgrounded;
     private bool shouldJump;
     private bool isJumping;
-    private bool justJumped;
-    private bool justOnGround;
+    private bool justJumped; // whether the player is jumping
+    //private bool justOnGround;
 
     private bool isCarrying; // indicates whether the player is carrying an object
     private bool isObjDetected; // whether an object is detected by the player
@@ -73,7 +73,7 @@ public class BasicMove : MonoBehaviour
         justJumped = false;
         isCarrying = false;
         isObjDetected = false;
-        justOnGround = false;
+        //justOnGround = false;
         carryObj = null;
 
         rb = GetComponent<Rigidbody2D>();
@@ -112,7 +112,7 @@ public class BasicMove : MonoBehaviour
         // check ground hit, simlulate gravity
         isgrounded = isGroundedCheck();
         if (isgrounded) {
-            justOnGround = true;
+            //justOnGround = true;
             if (justJumped)
             {
                 justJumped = false;
@@ -127,15 +127,13 @@ public class BasicMove : MonoBehaviour
         }
         else
         {
-            if (justOnGround && !justJumped) {
-                horizontalVelo *= inAirBalance;
-                justOnGround = false;
+            if (justJumped) { // can only change horizontal while jumping
+                horizontalVelo = horizontalInput * jumpBalance * MoveSpeed;
             }
+            
 
             // adjust the player tilt angle
             tr.up = -gravityDir;
-            
-            horizontalVelo = horizontalInput * jumpBalance * MoveSpeed;
 
             // control animations in the air
             ani.SetFloat("RunSpeed", 0);
