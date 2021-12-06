@@ -11,7 +11,10 @@ public class LevelManager : MonoBehaviour
 
     public Animator animator;                       // set in inspector
 
-    static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
+    // save (PlayerPrefs)
+    public const string LEVEL_PROGRESS = "LevelProgress";
+
+    public static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
         {-1, "Menu" }, {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }
     };
 
@@ -22,10 +25,18 @@ public class LevelManager : MonoBehaviour
         _instance = this;
     }
 
-    private void Start()
+    #region SAVE_FEATURE
+    private void ClearSave()
     {
-        //Debug.Log("currentLevel = " + currentLevel);
+        PlayerPrefs.SetInt(LEVEL_PROGRESS, 0);
     }
+
+    private void UpdateLevelProgress(int level)
+    {
+        if (level > PlayerPrefs.GetInt(LEVEL_PROGRESS, 0))
+            PlayerPrefs.SetInt(LEVEL_PROGRESS, level);
+    }
+    #endregion
 
     public void RestartCurrentLevel()
     {
@@ -37,14 +48,24 @@ public class LevelManager : MonoBehaviour
     {
         loadLevel(-1);
     }
+    public void StartOver()
+    {
+        // clear save
+        ClearSave();
+
+        loadLevel(0);
+    }
 
     public void LoadCurrentLevel()
     {
         loadLevel(currentLevel);
     }
 
-    public void loadLevel(int levelIndex)
+    private void loadLevel(int levelIndex)
     {
+        // update save if needed
+        UpdateLevelProgress(levelIndex);
+
         // player fade out animation
         if (animator != null)
             animator.SetTrigger("FadeOut");
@@ -80,5 +101,10 @@ public class LevelManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void LinkToGithub()
+    {
+        Application.OpenURL("https://github.com/Timothy-197/Portal2d");
     }
 }
