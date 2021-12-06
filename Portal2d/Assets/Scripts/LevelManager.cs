@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public Animator animator;                       // set in inspector
 
     static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
-        {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }
+        {-1, "Menu" }, {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }
     };
 
     private void Awake()
@@ -33,6 +33,16 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
+    public void BackToMenu()
+    {
+        loadLevel(-1);
+    }
+
+    public void LoadCurrentLevel()
+    {
+        loadLevel(currentLevel);
+    }
+
     public void loadLevel(int levelIndex)
     {
         // player fade out animation
@@ -41,7 +51,8 @@ public class LevelManager : MonoBehaviour
         else
             Debug.Log("LevelManager: animator is not set.");
 
-        currentLevel = levelIndex;
+        if (levelIndex != -1)             //not menu
+            currentLevel = levelIndex;
 
         StartCoroutine("WaitAndChangeLoadScene", levelIndex);
     }
