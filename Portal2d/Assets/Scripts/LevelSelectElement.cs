@@ -8,6 +8,9 @@ public class LevelSelectElement : MonoBehaviour
 
     public void LoadCorrespondingLevel()
     {
-        Debug.Log("Click btn");
+        if (levelIndex <= PlayerPrefs.GetInt(LevelManager.LEVEL_PROGRESS, 0))
+            LevelManager._instance.loadLevel(levelIndex);
+        else
+            Debug.Log("LevelSelectElement: this level is locked");
     }
 }

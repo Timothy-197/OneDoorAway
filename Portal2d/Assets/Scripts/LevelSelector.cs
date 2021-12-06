@@ -7,6 +7,8 @@ using TMPro;
 
 public class LevelSelector : MonoBehaviour
 {
+    public GameObject CloseBtn;
+
     public GameObject levelHolder;
     public GameObject levelIcon;
     public GameObject thisCanvas;
@@ -17,6 +19,18 @@ public class LevelSelector : MonoBehaviour
     private Rect iconDimensions;
     private int amountPerPage;
     private int currentLevelCount;
+
+    public void OpenLevelSelectPanel()
+    {
+        CloseBtn.SetActive(true);
+        levelHolder.SetActive(true);
+    }
+
+    public void CloseLevelSelectPanel()
+    {
+        CloseBtn.SetActive(false);
+        levelHolder.SetActive(false);
+    }
 
     private void Start()
     {
@@ -29,6 +43,8 @@ public class LevelSelector : MonoBehaviour
         amountPerPage = maxInARow * maxInACol;
         int totalPages = Mathf.CeilToInt((float)numberOfLevels / amountPerPage);
         LoadPanels(totalPages);
+
+        CloseLevelSelectPanel();
     }
 
     private void LoadPanels(int numberOfPanels)

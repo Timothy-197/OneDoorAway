@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     public const string LEVEL_PROGRESS = "LevelProgress";
 
     public static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
-        {-1, "Menu" }, {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }
+        {-1, "Menu" }, {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }, {6, "Level-Bonus" }
     };
 
     private void Awake()
@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
         loadLevel(currentLevel);
     }
 
-    private void loadLevel(int levelIndex)
+    public void loadLevel(int levelIndex)
     {
         // update save if needed
         UpdateLevelProgress(levelIndex);
@@ -94,7 +94,11 @@ public class LevelManager : MonoBehaviour
         else
         {
             Debug.Log("No next level available. Reload current level");
-            loadLevel(currentLevel);
+            
+            if (levelNameMapping[currentLevel] == "Level-Bonus")
+                BackToMenu();
+            else
+                loadLevel(currentLevel);
         }
     }
 
