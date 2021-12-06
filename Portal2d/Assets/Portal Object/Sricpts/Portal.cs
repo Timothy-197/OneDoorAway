@@ -51,6 +51,7 @@ public class Portal : MonoBehaviour
         // "player" is not implemented with Unity Physics
         else if (IsInLayerMask(layerNum, transferableObjectCustomizedPhysics))
         {
+            PlayerEvents.current.EnterPortal();
             //Debug.Log("Detect player");
 
             GameObject go = collision.gameObject;

@@ -58,7 +58,7 @@ public class BasicMove : MonoBehaviour
     private void Start()
     {
         Instance = this; // player singleton
-
+        PlayerEvents.current.onEnterPortal += SetToInertia;
         //ch = this.GetComponent<CharacterController>();
         tr = this.transform;
         ani = tr.GetChild(0).gameObject.GetComponent<Animator>();
@@ -77,6 +77,11 @@ public class BasicMove : MonoBehaviour
         carryObj = null;
 
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnDestroy()
+    {
+        PlayerEvents.current.onEnterPortal -= SetToInertia;
     }
 
     private void Update()
@@ -101,7 +106,7 @@ public class BasicMove : MonoBehaviour
         }
 
         // horizontal move input
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
         ani.SetFloat("RunSpeed", Mathf.Abs(horizontalInput));
 
         // check head hit
@@ -130,7 +135,6 @@ public class BasicMove : MonoBehaviour
             if (justJumped) { // can only change horizontal while jumping
                 horizontalVelo = horizontalInput * jumpBalance * MoveSpeed;
             }
-            
 
             // adjust the player tilt angle
             tr.up = -gravityDir;
@@ -226,6 +230,12 @@ public class BasicMove : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    // set the player driven by the intertia driven intertia after entering the portal
+    private void SetToInertia()
+    {
+        justJumped = false;
     }
 
     // movable objects detect function:
