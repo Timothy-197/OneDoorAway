@@ -32,8 +32,8 @@ public class DoorMove_Slide : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) { SlideDoorOpen(doorIndex); }
-        if (Input.GetKeyDown(KeyCode.I)) { SlideDoorClose(doorIndex); }
+        //if (Input.GetKeyDown(KeyCode.Q)) { SlideDoorOpen(doorIndex); }
+        //if (Input.GetKeyDown(KeyCode.I)) { SlideDoorClose(doorIndex); }
         if (shouldBack)
         {
             if (tr.position == initialPosition) {

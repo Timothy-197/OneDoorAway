@@ -84,7 +84,7 @@ public class DoorMove_Rotate : MonoBehaviour
     private void RotateDoorOpen(int index) 
     {
         if (index == doorIndex) { // check the index of the trigger
-            Debug.Log("door called by trigger!");
+            //Debug.Log("door called by trigger!");
             shouldRotate = true;
             rotateBack = false;
         }
@@ -94,7 +94,7 @@ public class DoorMove_Rotate : MonoBehaviour
      */
     private void RotateDoorClose(int index)
     {
-        Debug.Log("rotate back called");
+        //Debug.Log("rotate back called");
         if (index == doorIndex) {
             shouldRotate = true;
             rotateBack = true;

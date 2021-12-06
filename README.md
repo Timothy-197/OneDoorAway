@@ -55,5 +55,52 @@ Everything realting to the player control should be placed under the `Player Con
  
 
 #### 注意
-* 因为playercontroller未用unity物理，所以速度数值偏小，但只要有关player速度只调用```basic move```里的函数就不必担心这个问题
-* 我用了rigidbody2d component，若本player用起来感觉不好，可以改为rigidbody控制的物理（我用起来感觉有点怪，可能得改）
+* playercontroller未用unity物理，但只要有关player速度只调用```basic move```里的函数就不必担心这个问题
+
+-----------------------------
+
+### Triggers and doors
+
+对于简单的门和触发器，我做了prefab，可以在scene中直接用，不过你需要设置几个参数。对于复杂的门，我认为用动画实现会更好。
+
+#### Doors
+
+* Slide Door：若玩家触发开关，此门会平移，若玩家离开开关，此门会回到原位。
+* Rotate Door：若玩家出发开关，此门会旋转。
+
+#### Trigger
+
+* Press-down trigger:：有重物压在其上视为触发开关
+
+#### How to set up?
+
+1. Trigger:
+
+   ![image-20211206190214134](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190214134.png)
+
+   **set trigger index** (which is **unique** for this particular trigger)
+
+   add layers that can be seen as gravity objects to trigger the trigger.
+
+2. Door
+
+   2.1. Slide door
+
+   ![image-20211206190401155](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190401155.png)
+
+   **set door index** (this index should **equals to the corresponding trigger of the door**)
+
+   set the parameter to control the move of the door (which is straightforward)
+
+   2.2. Rotate door
+
+   ![image-20211206190629095](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190629095.png)
+
+   **set door index** (this index should **equals to the corresponding trigger of the door**)
+
+   set the parameter to control the rotationv (note: **direction 1: counter-clockwise, -1: clockwise**)
+
+3. Note
+
+   * You can control several doors by one trigger by setting the door indexes equal to the trigger index.
+   * you can change the transdorm of the the doors as you like, but pay attention to that you need to change the sprite child under the "Slide Door" and "Rotate Door" gameobjects.
