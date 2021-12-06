@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public Animator animator;                       // set in inspector
 
     static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
-        {0, "Level00" }, {1, "Level01" }, {2, "Level02" }
+        {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }
     };
 
     private void Awake()
@@ -49,6 +49,7 @@ public class LevelManager : MonoBehaviour
     IEnumerator WaitAndChangeLoadScene(int levelIndex)
     {
         yield return new WaitForSeconds(0.9f);
+        animator.ResetTrigger("FadeOut");
         SceneManager.LoadScene(levelNameMapping[levelIndex], LoadSceneMode.Single);
     }
 

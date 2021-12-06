@@ -9,12 +9,15 @@ using UnityEngine;
 
 public class BasicMove : MonoBehaviour
 {
+    private Rigidbody2D rb;
+
     public float jumpSpeed;
     public float MoveSpeed;
     public float jumpBalance;
     public float MaxSpeed;
     public float gravity;
     public float headBounceSpeed;
+    public float inAirBalance;
     public float hitDistance; // the distance which can be treated as hit
     [Tooltip("the layer of the ground objects")]
     public LayerMask groundLayer;
@@ -38,6 +41,7 @@ public class BasicMove : MonoBehaviour
     private bool shouldJump;
     private bool isJumping;
     private bool justJumped;
+    private bool justOnGround;
 
     private bool isCarrying; // indicates whether the player is carrying an object
     private bool isObjDetected; // whether an object is detected by the player
@@ -65,11 +69,17 @@ public class BasicMove : MonoBehaviour
         justJumped = false;
         isCarrying = false;
         isObjDetected = false;
+        justOnGround = false;
         carryObj = null;
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
+        if (rb.velocity.magnitude > 0)
+            rb.velocity = Vector2.zero;
+
         // check if there is object to carry + carry the object
         if (isCarrying) carryObj.transform.position = tr.GetChild(3).transform.position;
         DetectBlock();
@@ -91,11 +101,14 @@ public class BasicMove : MonoBehaviour
         ani.SetFloat("RunSpeed", Mathf.Abs(horizontalInput));
 
         // check head hit
-        if (isHeadGroundCheck()) verticalVelo = headBounceSpeed; // reset verical velocity
+        if (isHeadGroundCheck()) {
+            verticalVelo = headBounceSpeed; // reset verical velocity                                                   
+        }
 
         // check ground hit, simlulate gravity
         isgrounded = isGroundedCheck();
         if (isgrounded) {
+            justOnGround = true;
             if (justJumped)
             {
                 justJumped = false;
@@ -110,6 +123,11 @@ public class BasicMove : MonoBehaviour
         }
         else
         {
+            if (justOnGround && !justJumped) {
+                horizontalVelo *= inAirBalance;
+                justOnGround = false;
+            }
+
             // adjust the player tilt angle
             tr.up = -gravityDir;
             //ch.transform.up = -gravityDir;

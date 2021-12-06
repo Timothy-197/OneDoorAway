@@ -8,6 +8,7 @@ public class Glass : MonoBehaviour
 
     public float minSpeedToBreak;
     public float forceScale;
+    //public float speedDecreaseRate;
 
     public LayerMask canBreakGlassUnityPhysics;
     public LayerMask cabBreakGlassCustomizedPhysics;
@@ -23,13 +24,23 @@ public class Glass : MonoBehaviour
 
         if (IsInLayerMask(layerNum, canBreakGlassUnityPhysics))
         {
-            Vector2 vel = collision.gameObject.GetComponent<Rigidbody2D>().velocity;
+            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            Vector2 vel = rb.velocity;
             breakGlass(vel);
+            //rb.velocity = vel;
         }
         else if (IsInLayerMask(layerNum, cabBreakGlassCustomizedPhysics))
         {
-            Vector2 vel = collision.gameObject.GetComponent<BasicMove>().GetSpeed_Vector();
-            breakGlass(vel);
+            BasicMove basicMove = collision.gameObject.GetComponent<BasicMove>();
+            Vector2 vel = basicMove.GetSpeed_Vector();
+
+            //player cannot break glass
+            float normalVel = Vector3.Project(vel, transform.right).magnitude;
+            if (normalVel > minSpeedToBreak)
+                LevelManager._instance.RestartCurrentLevel();
+
+                breakGlass(vel);
+            basicMove.SetVelocity(vel);
         }
 
     }
@@ -41,6 +52,12 @@ public class Glass : MonoBehaviour
         // break the glass
         if (normalVel > minSpeedToBreak)
         {
+            BoxCollider2D[] boxColliderArr = transform.GetComponents<BoxCollider2D>();
+            for (int i = 0; i < boxColliderArr.Length; i++)
+            {
+                boxColliderArr[i].enabled = false;
+            }
+
             for (int i = 0; i < transform.childCount; i++)
             {
                 Rigidbody2D rb = transform.GetChild(i).GetComponent<Rigidbody2D>();
