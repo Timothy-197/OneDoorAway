@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
         loadLevel(currentLevel);
     }
 
-    private void loadLevel(int levelIndex)
+    public void loadLevel(int levelIndex)
     {
         // update save if needed
         UpdateLevelProgress(levelIndex);
