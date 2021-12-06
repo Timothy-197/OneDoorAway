@@ -167,9 +167,6 @@ public class BasicMove : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isgrounded) { // jump when on the ground
             shouldJump = true;
         }
-
-        Debug.Log("the horizontal velocity is: " + horizontalVelo);
-        //Debug.Log("the vertical velocity is: " + verticalVelo);
     }
 
     private void FixedUpdate()
