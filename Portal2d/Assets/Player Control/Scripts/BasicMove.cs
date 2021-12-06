@@ -258,6 +258,10 @@ public class BasicMove : MonoBehaviour
     {
         return (Vector3.Cross(tr.up, tr.forward) * horizontalVelo + Vector3.up * verticalVelo).magnitude;
     }
+    public Vector3 GetSpeed_Vector()
+    {
+        return (Vector3.Cross(tr.up, tr.forward) * horizontalVelo + Vector3.up * verticalVelo);
+    }
 
     /*
      * Set new speed for the player
