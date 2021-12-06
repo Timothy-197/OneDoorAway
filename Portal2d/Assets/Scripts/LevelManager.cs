@@ -15,7 +15,15 @@ public class LevelManager : MonoBehaviour
     public const string LEVEL_PROGRESS = "LevelProgress";
 
     public static Dictionary<int, string> levelNameMapping = new Dictionary<int, string> {
-        {-1, "Menu" }, {0, "Level00" }, {1, "Level01" }, {2, "Level02" }, {3, "Level03" }, {4, "Level04" }, {5, "Level05" }, {6, "Level-Bonus" }
+        {-1, "Menu" }, 
+        {0, "00_Start" }, 
+        {1, "01_BasicTut" }, 
+        {2, "02_Portal_tut" }, 
+        {3, "03_PortalRespawn_tut" }, 
+        {4, "n_GlassBreak" }, 
+        {5, "n_ShotAcross" }, 
+        {6, "n_SpeedSum 1" },
+        {7, "Level-Bonus" },
     };
 
     private void Awake()

@@ -44,8 +44,8 @@ public class BasicMove : MonoBehaviour
     private bool isgrounded;
     private bool shouldJump;
     private bool isJumping;
-    private bool justJumped;
-    private bool justOnGround;
+    private bool justJumped; // whether the player is jumping
+    //private bool justOnGround;
 
     private bool isCarrying; // indicates whether the player is carrying an object
     private bool isObjDetected; // whether an object is detected by the player
@@ -58,7 +58,7 @@ public class BasicMove : MonoBehaviour
     private void Start()
     {
         Instance = this; // player singleton
-
+        PlayerEvents.current.onEnterPortal += SetToInertia;
         //ch = this.GetComponent<CharacterController>();
         tr = this.transform;
         ani = tr.GetChild(0).gameObject.GetComponent<Animator>();
@@ -73,10 +73,15 @@ public class BasicMove : MonoBehaviour
         justJumped = false;
         isCarrying = false;
         isObjDetected = false;
-        justOnGround = false;
+        //justOnGround = false;
         carryObj = null;
 
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnDestroy()
+    {
+        PlayerEvents.current.onEnterPortal -= SetToInertia;
     }
 
     private void Update()
@@ -101,7 +106,7 @@ public class BasicMove : MonoBehaviour
         }
 
         // horizontal move input
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
         ani.SetFloat("RunSpeed", Mathf.Abs(horizontalInput));
 
         // check head hit
@@ -112,7 +117,7 @@ public class BasicMove : MonoBehaviour
         // check ground hit, simlulate gravity
         isgrounded = isGroundedCheck();
         if (isgrounded) {
-            justOnGround = true;
+            //justOnGround = true;
             if (justJumped)
             {
                 justJumped = false;
@@ -127,15 +132,12 @@ public class BasicMove : MonoBehaviour
         }
         else
         {
-            if (justOnGround && !justJumped) {
-                horizontalVelo *= inAirBalance;
-                justOnGround = false;
+            if (justJumped) { // can only change horizontal while jumping
+                horizontalVelo = horizontalInput * jumpBalance * MoveSpeed;
             }
 
             // adjust the player tilt angle
             tr.up = -gravityDir;
-            
-            horizontalVelo = horizontalInput * jumpBalance * MoveSpeed;
 
             // control animations in the air
             ani.SetFloat("RunSpeed", 0);
@@ -228,6 +230,12 @@ public class BasicMove : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    // set the player driven by the intertia driven intertia after entering the portal
+    private void SetToInertia()
+    {
+        justJumped = false;
     }
 
     // movable objects detect function:
