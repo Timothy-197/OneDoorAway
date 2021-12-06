@@ -122,7 +122,7 @@ public class BasicMove : MonoBehaviour
             if (verticalVelo < MaxSpeed) verticalVelo += gravity * Time.deltaTime;
             else verticalVelo = MaxSpeed;
             // jump animation
-            if (verticalVelo < 0) // jump up
+            if (verticalVelo < 1) // jump up
             {
                 ani.SetBool("JumpDown", false);
                 if (justJumped) ani.SetBool("JumpUp", true);
