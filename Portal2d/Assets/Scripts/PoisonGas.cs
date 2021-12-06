@@ -14,16 +14,17 @@ public class PoisonGas : MonoBehaviour
         if (layerNum == 31)
         {
             collision.transform.position = spawnPos.position;
-            animator.SetTrigger("FadeOut");
 
-            StartCoroutine("ResetTrigger");
+            //animator.SetTrigger("FadeOut");
+
+            //StartCoroutine("ResetTrigger");
         }
     }
 
-    IEnumerator ResetTrigger()
-    {
-        yield return new WaitForSeconds(0.5f);
-        animator.ResetTrigger("FadeOut");
-        animator.SetBool("AutoBackToFadeIn", true);
-    }
+    //IEnumerator ResetTrigger()
+    //{
+    //    yield return new WaitForSeconds(0.5f);
+    //    animator.ResetTrigger("FadeOut");
+    //    animator.SetBool("AutoBackToFadeIn", true);
+    //}
 }
