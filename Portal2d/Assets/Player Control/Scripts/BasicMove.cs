@@ -125,7 +125,8 @@ public class BasicMove : MonoBehaviour
             if (verticalVelo < 0) // jump up
             {
                 ani.SetBool("JumpDown", false);
-                ani.SetBool("JumpUp", true);
+                if (justJumped) ani.SetBool("JumpUp", true);
+                else ani.SetBool("JumpUp", false);
             }
             else { // jump down
                 if (isJumping)
