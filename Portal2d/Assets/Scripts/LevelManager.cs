@@ -23,7 +23,8 @@ public class LevelManager : MonoBehaviour
         {4, "n_GlassBreak" }, 
         {5, "n_ShotAcross" }, 
         {6, "n_SpeedSum 1" },
-        {7, "Level-Bonus" },
+        {7, "Level-Ending" },
+        {8, "Level-Bonus" }
     };
 
     private void Awake()
@@ -43,6 +44,12 @@ public class LevelManager : MonoBehaviour
     {
         if (level > PlayerPrefs.GetInt(LEVEL_PROGRESS, 0))
             PlayerPrefs.SetInt(LEVEL_PROGRESS, level);
+    }
+
+    public void UnlockAllLevels()
+    {
+        Debug.Log("Unlock all levels: LevelProgress set to " + (levelNameMapping.Count - 1 - 1));
+        PlayerPrefs.SetInt(LEVEL_PROGRESS, levelNameMapping.Count - 1 - 1);
     }
     #endregion
 
@@ -101,7 +108,7 @@ public class LevelManager : MonoBehaviour
         } 
         else
         {
-            Debug.Log("No next level available. Reload current level");
+            Debug.Log("No next level available.");
             
             if (levelNameMapping[currentLevel] == "Level-Bonus")
                 BackToMenu();
