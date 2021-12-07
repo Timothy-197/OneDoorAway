@@ -26,7 +26,6 @@ public class DoorTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("enter trigger, layer is: " + other.gameObject.layer);
         if (IsInLayerMask(other.gameObject.layer, gravityInstances)) {
             // trigger the event to open the door
             DoorEvents.current.PressTrigger(triggerIndex);
@@ -38,7 +37,6 @@ public class DoorTrigger : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("leave the trigger!");
         if (IsInLayerMask(other.gameObject.layer, gravityInstances)) {
             // trigger the event to close the the door
             DoorEvents.current.LeaveTrigger(triggerIndex);
