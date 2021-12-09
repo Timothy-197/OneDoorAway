@@ -70,10 +70,11 @@ public class Portal : MonoBehaviour
         }
     }
 
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    portalTransfer(collision);
-    //}
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        portalTransfer(collision);
+        //Debug.Log("portalTransfer call from OnTriggerStay2D");
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

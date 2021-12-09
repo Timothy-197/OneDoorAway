@@ -55,7 +55,7 @@ public class DoorMove_Rotate : MonoBehaviour
                 {
                     tr.eulerAngles = new Vector3(
                         initilaEulerAngle.x, initilaEulerAngle.y,
-                        Mathf.LerpAngle(tr.eulerAngles.z, initilaEulerAngle.z + (angle + 5), Time.deltaTime * rotateSpeed));
+                        Mathf.LerpAngle(tr.eulerAngles.z, initilaEulerAngle.z + (angle), Time.deltaTime * rotateSpeed));
                 }
             }
             else if (direction == -1)
@@ -70,7 +70,7 @@ public class DoorMove_Rotate : MonoBehaviour
                 {
                     tr.eulerAngles = new Vector3(
                         initilaEulerAngle.x, initilaEulerAngle.y,
-                        Mathf.LerpAngle(tr.eulerAngles.z, initilaEulerAngle.z - (angle + 5), Time.deltaTime * rotateSpeed));
+                        Mathf.LerpAngle(tr.eulerAngles.z, initilaEulerAngle.z - (angle), Time.deltaTime * rotateSpeed));
                 }
             }
         }

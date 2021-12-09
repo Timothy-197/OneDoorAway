@@ -86,11 +86,19 @@ public class BasicMove : MonoBehaviour
 
     private void Update()
     {
+        // set the normal ajusted to the gravity
+        if (gravity >= 0) gravityDir = new Vector3(0, -1f, 0);
+        else gravityDir = new Vector3(0, 1f, 0);
+
+        // constrain rigidbody
         if (rb.velocity.magnitude > 0)
             rb.velocity = Vector2.zero;
 
         // check if there is object to carry + carry the object
-        if (isCarrying) carryObj.transform.position = tr.GetChild(3).transform.position;
+        if (isCarrying) {
+            carryObj.transform.position = tr.GetChild(3).transform.position;
+            carryObj.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
         DetectBlock();
 
         // check if place the object
@@ -99,6 +107,7 @@ public class BasicMove : MonoBehaviour
             { // when carrying, place down the object
                 isCarrying = false;
                 // release the object
+                carryObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 0.2f), ForceMode2D.Impulse);
             }
             else { // if not carrying, pick up the object if an object is detected
                 if (isObjDetected) CarryObj();
@@ -141,10 +150,10 @@ public class BasicMove : MonoBehaviour
 
             // control animations in the air
             ani.SetFloat("RunSpeed", 0);
-            if (verticalVelo < MaxSpeed) verticalVelo += gravity * Time.deltaTime;
-            else verticalVelo = MaxSpeed;
+            if (Mathf.Abs(verticalVelo) < MaxSpeed) verticalVelo += gravity * Time.deltaTime;
+            else verticalVelo = - MaxSpeed * gravityDir.y;
             // jump animation
-            if (verticalVelo < 1) // jump up
+            if (verticalVelo * (-gravityDir.y) < 1) // jump up
             {
                 ani.SetBool("JumpDown", false);
                 if (justJumped) ani.SetBool("JumpUp", true);
@@ -175,7 +184,7 @@ public class BasicMove : MonoBehaviour
     {
         // perform jump
         if (shouldJump) { 
-            verticalVelo = -jumpSpeed * jumpSpeedBalance;
+            verticalVelo = jumpSpeed * jumpSpeedBalance * gravityDir.y;
             //horizontalVelo *= jumpBalance;
             shouldJump = false;
             isJumping = true;
@@ -195,7 +204,7 @@ public class BasicMove : MonoBehaviour
 
         // vertical movement
         //ch.Move(gravityDir * verticalVelo); // move direction is determined by the grivaty direction
-        tr.Translate(gravityDir * verticalVelo * Time.fixedDeltaTime, Space.World);
+        tr.Translate(new Vector3(0, -1f, 0) * verticalVelo * Time.fixedDeltaTime, Space.World);
 
         // horizontal move
         horizontalDir = Vector3.Cross(tr.up, tr.forward);
