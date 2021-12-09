@@ -107,7 +107,7 @@ public class BasicMove : MonoBehaviour
             { // when carrying, place down the object
                 isCarrying = false;
                 // release the object
-                carryObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 0.2f), ForceMode2D.Impulse);
+                carryObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2f), ForceMode2D.Impulse);
             }
             else { // if not carrying, pick up the object if an object is detected
                 if (isObjDetected) CarryObj();
@@ -272,6 +272,10 @@ public class BasicMove : MonoBehaviour
         PlayerEvents.current.CarryObject(); // hide ui
         var hits = Physics2D.OverlapCircleAll(tr.position, overlapR, objectLayer);
         int result = 0;
+        if (hits.Length == 0)
+        {
+            return;
+        }
         float minD = Vector2.Distance(tr.position, hits[0].transform.position);
         for (int i = 1; i < hits.Length; i++)
         {

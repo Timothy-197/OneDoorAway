@@ -145,9 +145,20 @@ public class PlayerPlacePortal : MonoBehaviour
             {
                 portals[portalIndex].pair = null;
             }
+
+            // set to the child of the ground
+            if (IsInLayerMask(hit.collider.gameObject.layer, canPortalBePlaced))
+            {
+                portalObj.transform.SetParent(hit.collider.gameObject.transform); // attach to the rotate door
+            }
         }
         else
             Debug.Log("InstantiatePortal: raycast not hit");
 
+    }
+
+    private bool IsInLayerMask(int layerNum, LayerMask layerMask)
+    {
+        return ((layerMask.value & (1 << layerNum)) != 0);
     }
 }

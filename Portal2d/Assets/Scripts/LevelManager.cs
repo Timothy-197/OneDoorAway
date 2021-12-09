@@ -25,8 +25,9 @@ public class LevelManager : MonoBehaviour
         {6, "06_SpeedSum 1" },
         {7, "10_trigger_tut" },
         {8, "11_trigger1" },
-        {9, "Level-Ending" },
-        {10, "Level-Bonus" }
+        {9, "12_trigger3" },
+        {10, "Level-Ending" },
+        {11, "Level-Bonus" }
     };
 
     private void Awake()
