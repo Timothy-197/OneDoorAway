@@ -41,6 +41,8 @@ public class LevelManager : MonoBehaviour
     private void ClearSave()
     {
         PlayerPrefs.SetInt(LEVEL_PROGRESS, 0);
+
+        AccomplishmentPanel.LockAllAccomplishments();
     }
 
     private void UpdateLevelProgress(int level)
@@ -53,6 +55,8 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Unlock all levels: LevelProgress set to " + (levelNameMapping.Count - 1 - 1));
         PlayerPrefs.SetInt(LEVEL_PROGRESS, levelNameMapping.Count - 1 - 1);
+
+        AccomplishmentPanel.UnlockAllAccomplishments();
     }
     #endregion
 
