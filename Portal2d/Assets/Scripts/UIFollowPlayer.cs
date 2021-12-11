@@ -18,7 +18,7 @@ public class UIFollowPlayer : MonoBehaviour
     {
         if (this.gameObject.activeInHierarchy) {
             // follow the player if the UI is active
-            Vector3 screenPosition = RectTransformUtility.WorldToScreenPoint(cam, GameObject.Find("Player").transform.position);
+            Vector3 screenPosition = RectTransformUtility.WorldToScreenPoint(cam, GameObject.Find("Memory Chip Placeholder").transform.position);
             this.GetComponent<RectTransform>().anchoredPosition = screenPosition + UIoffset;
         }
     }
