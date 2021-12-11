@@ -33,7 +33,7 @@ public class LevelEndingFakeEndTrigger : MonoBehaviour
         BlackPanel.SetActive(true);
 
         storyText.text = "";
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2f);
         storyText.text = "Finally... Finally... I get out of the house...";
         yield return new WaitForSeconds(3f);
         storyText.text = "YEAH!!! I see the sea!";
@@ -43,13 +43,13 @@ public class LevelEndingFakeEndTrigger : MonoBehaviour
         storyText.text = "Wait... Why... Why I can't feel the water?";
         yield return new WaitForSeconds(3f);
         storyText.text = "... Is it real?";
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         storyText.text = "Why...";
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         storyText.text = "*Suddenly, I feel so tired and fall asleep*";
         yield return new WaitForSeconds(3f);
         storyText.text = "*Right before I lose consciousness, I felt that... this seems to have happened before...*";
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
 
         LevelManager._instance.loadLevel(0);     //go back to level 0 again
     }

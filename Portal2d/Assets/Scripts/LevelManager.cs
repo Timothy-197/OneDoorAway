@@ -28,8 +28,9 @@ public class LevelManager : MonoBehaviour
         {9, "12_trigger3" },
         {10, "13_trigger4" },
         {11, "20_gravity_tut" },
-        {12, "Level-Ending" },
-        {13, "Level-Bonus" }
+        {12, "21_gravity2" },
+        {13, "Level-Ending" },
+        {14, "Level-Bonus" }
     };
 
     private void Awake()

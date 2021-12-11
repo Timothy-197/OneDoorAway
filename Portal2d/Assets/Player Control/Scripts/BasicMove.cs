@@ -177,7 +177,7 @@ public class BasicMove : MonoBehaviour
 
 
         // jump input
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isgrounded) { // jump when on the ground
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && isgrounded) { // jump when on the ground
             shouldJump = true;
         }
     }
