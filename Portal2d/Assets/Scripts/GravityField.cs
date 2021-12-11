@@ -17,6 +17,20 @@ public class GravityField : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (IsInLayerMask(collider.gameObject.layer, PlayerLayer))
+        {
+            // player change gravity direction in the air
+            BasicMove.Instance.SetGravityDirection(true);
+        }
+        if (IsInLayerMask(collider.gameObject.layer, GravityObjLayer))
+        {
+            // change the gravity direction of the object
+            collider.gameObject.GetComponent<Rigidbody2D>().gravityScale = -Mathf.Abs(collider.gameObject.GetComponent<Rigidbody2D>().gravityScale);
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (IsInLayerMask(collider.gameObject.layer, PlayerLayer))

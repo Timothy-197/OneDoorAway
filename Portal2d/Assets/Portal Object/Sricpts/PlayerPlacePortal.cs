@@ -119,6 +119,7 @@ public class PlayerPlacePortal : MonoBehaviour
                 portals[getPairPortalIndex(portalIndex)].pair = null;
         }
 
+        // ignore the gravity field layler
         RaycastHit2D hit = Physics2D.Raycast(this.transform.position, (bulletPos - this.transform.position).normalized, 50f, canPortalBePlaced);
 
         if (hit)
