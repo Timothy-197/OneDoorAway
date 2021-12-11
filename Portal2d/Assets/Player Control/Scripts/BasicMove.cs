@@ -49,6 +49,7 @@ public class BasicMove : MonoBehaviour
 
     private bool isCarrying; // indicates whether the player is carrying an object
     private bool isObjDetected; // whether an object is detected by the player
+    private bool shouldRelease; // release the block
     private GameObject carryObj; // object to carray
 
     private float jumpSpeedBalance; // a float to balance the jump speed
@@ -96,8 +97,8 @@ public class BasicMove : MonoBehaviour
 
         // check if there is object to carry + carry the object
         if (isCarrying) {
-            carryObj.transform.position = tr.GetChild(3).transform.position;
-            carryObj.transform.eulerAngles = new Vector3(0, 0, 0);
+            carryObj.transform.localPosition = new Vector3(0, 0.2f, 0);
+            carryObj.transform.localEulerAngles = new Vector3(0, 0, 0);
         }
         DetectBlock();
 
@@ -107,7 +108,8 @@ public class BasicMove : MonoBehaviour
             { // when carrying, place down the object
                 isCarrying = false;
                 // release the object
-                carryObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2f), ForceMode2D.Impulse);
+                shouldRelease = true;
+                carryObj.transform.SetParent(GameObject.Find("Levels").transform);
             }
             else { // if not carrying, pick up the object if an object is detected
                 if (isObjDetected) CarryObj();
@@ -182,6 +184,13 @@ public class BasicMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // release the block if needed
+        if (shouldRelease)
+        {
+            shouldRelease = false;
+            carryObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2f), ForceMode2D.Impulse);
+        }
+
         // perform jump
         if (shouldJump) { 
             verticalVelo = jumpSpeed * jumpSpeedBalance * gravityDir.y;
@@ -285,6 +294,7 @@ public class BasicMove : MonoBehaviour
         isCarrying = true;
         isObjDetected = false;
         carryObj = hits[result].gameObject;
+        carryObj.transform.SetParent(tr.GetChild(3));
     }
 
 
