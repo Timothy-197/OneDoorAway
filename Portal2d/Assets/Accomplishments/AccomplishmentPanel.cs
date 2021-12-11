@@ -76,6 +76,30 @@ public class AccomplishmentPanel : MonoBehaviour
 
 
     #region SAVE
+    static public void ActivateAccomplishment(int accomplishmentIndex)
+    {
+        if (accomplishmentIndex >= 0 && accomplishmentIndex < AccomplishmentList.Count)
+        {
+            PlayerPrefs.SetInt(AccomplishmentList[accomplishmentIndex], 1);
+        }
+        else
+        {
+            Debug.Log("ActivateAccomplishment: invalid accomplishmentIndex");
+        }
+    }
+
+    static public void ActivateAccomplishment(string accomplishmentName)
+    {
+        if (AccomplishmentList.Contains(accomplishmentName))
+        {
+            PlayerPrefs.SetInt(accomplishmentName, 1);
+        }
+        else
+        {
+            Debug.Log("ActivateAccomplishment: invalid accomplishmentName");
+        }
+    }
+
     static public void UnlockAllAccomplishments()
     {
         for (int i = 0; i < AccomplishmentList.Count; i++)
