@@ -34,7 +34,7 @@ public class AccomplishmentPanel : MonoBehaviour
             Transform accomplishment = AccomplishmentSet.GetChild(i);
             string AccomplishmentName = accomplishment.name;
 
-            if (PlayerPrefs.GetInt(AccomplishmentName, 0) != 1)
+            if (!IsAccomplishmentActive(AccomplishmentName))
             {
                 accomplishment.Find("Lock Image").gameObject.SetActive(true);  // activate the lock
                 accomplishment.GetComponent<Image>().color = LOCKED_COLOR;     // make this accomplishment grey
