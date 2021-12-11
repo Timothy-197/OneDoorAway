@@ -3,19 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelEndStory : MonoBehaviour
+public class LevelBonusEntrance : MonoBehaviour
 {
-    public Text storyText;          // set in inspector
+    public GameObject BlackPanel;
+    public Text storyText;
 
-    private void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        storyText.text = "";
-        StartCoroutine("TellEndStory");
+        if (collision.gameObject.layer == 31)
+        {
+            if (AccomplishmentPanel.IsAllAccomplishmentsActive())
+            {
+                // player real ending story
+                StartCoroutine("TellTrueEndStory");
+            }
+            else
+            {
+                Debug.Log("Not all memory chips are collected");
+            }
+        }
     }
 
-    IEnumerator TellEndStory()
+    IEnumerator TellTrueEndStory()
     {
-        yield return new WaitForSeconds(0.5f);
+        BlackPanel.SetActive(true);
+
+        storyText.text = "";
+        yield return new WaitForSeconds(2.5f);
         storyText.text = "I finially get the truth... The sea is not real!";
         yield return new WaitForSeconds(3f);
         storyText.text = "I remember... I was trapped in an infinite dream!";
@@ -33,6 +47,6 @@ public class LevelEndStory : MonoBehaviour
         storyText.text = "It is time to fight back... and gain real freedom... and see the real sea...";
         yield return new WaitForSeconds(3f);
 
-        Destroy(this.gameObject);
+        LevelManager._instance.BackToMenu();
     }
 }

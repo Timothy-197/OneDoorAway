@@ -119,7 +119,7 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("No next level available.");
             
-            if (levelNameMapping[currentLevel] == "Level-Bonus")
+            if (SceneManager.GetActiveScene().name == "Level-Bonus")
                 BackToMenu();
             else
                 loadLevel(currentLevel);

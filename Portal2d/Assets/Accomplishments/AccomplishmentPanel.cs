@@ -89,6 +89,20 @@ public class AccomplishmentPanel : MonoBehaviour
         return true;
     }
 
+    static public bool CanGoToBonusLevel()
+    {
+        // the last accomplishment do not have to achieve
+        for (int i = 0; i < AccomplishmentList.Count - 1; i++)
+        {
+            int status = PlayerPrefs.GetInt(AccomplishmentList[i], 0);
+
+            if (status != 1)
+                return false;
+        }
+
+        return true;
+    }
+
     static public bool IsAccomplishmentActive(int accomplishmentIndex)
     {
         if (accomplishmentIndex >= 0 && accomplishmentIndex < AccomplishmentList.Count)
