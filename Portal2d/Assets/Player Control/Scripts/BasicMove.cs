@@ -321,4 +321,11 @@ public class BasicMove : MonoBehaviour
         verticalVelo = -newVelo.y;
     }
 
+    // function to change the gravity direction of the player
+    public void SetGravityDirection(bool isInversed)
+    {
+        if (isInversed) gravity = -Mathf.Abs(gravity); // inverse
+        else gravity = Mathf.Abs(gravity);
+    }
+
 }

@@ -24,10 +24,12 @@ public class LevelManager : MonoBehaviour
         {5, "05_ShotAcross" },
         {6, "06_SpeedSum 1" },
         {7, "10_trigger_tut" },
-        {8, "11_trigger1" },
+        {8, "11_trigger2" },
         {9, "12_trigger3" },
-        {10, "Level-Ending" },
-        {11, "Level-Bonus" }
+        {10, "13_trigger4" },
+        {11, "20_gravity_tut" },
+        {12, "Level-Ending" },
+        {13, "Level-Bonus" }
     };
 
     private void Awake()

@@ -9,7 +9,6 @@ public class LevelHoldPlayer : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (IsInLayerMask(collision.gameObject.layer, carryObjectLayers)) {
-            Debug.Log("door carry the object with layer: " + collision.gameObject.layer);
             collision.gameObject.transform.SetParent(this.transform);
         }
     }
