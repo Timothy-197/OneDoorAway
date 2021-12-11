@@ -133,6 +133,6 @@ public class LevelManager : MonoBehaviour
 
     public void LinkToGithub()
     {
-        Application.OpenURL("https://github.com/Timothy-197/Portal2d");
+        Application.OpenURL("https://github.com/Timothy-197/OneDoorAway");
     }
 }
