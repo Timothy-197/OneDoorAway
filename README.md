@@ -1,4 +1,4 @@
-# Portal2d
+# One Door Away
 
 ### Layer设置标准
 
@@ -79,8 +79,6 @@ Everything realting to the player control should be placed under the `Player Con
 
    1.1. Door trigger / Door toggle
 
-   ![image-20211206190214134](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190214134.png)
-
    **set trigger index** (which is **unique** for this particular trigger)
 
    add layers that can be seen as gravity objects to trigger the trigger.
@@ -89,15 +87,12 @@ Everything realting to the player control should be placed under the `Player Con
 
    2.1. Slide door
 
-   ![image-20211206190401155](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190401155.png)
 
    **set door index** (this index should **equals to the corresponding trigger of the door**)
 
    set the parameter to control the move of the door (which is straightforward)
 
    2.2. Rotate door
-
-   ![image-20211206190629095](C:\Users\11957\AppData\Roaming\Typora\typora-user-images\image-20211206190629095.png)
 
    **set door index** (this index should **equals to the corresponding trigger of the door**)
 
