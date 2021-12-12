@@ -188,6 +188,8 @@ public class BasicMove : MonoBehaviour
         if (shouldRelease)
         {
             shouldRelease = false;
+            carryObj.GetComponent<Rigidbody2D>().angularVelocity = 0;
+            carryObj.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             carryObj.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2f), ForceMode2D.Impulse);
         }
 

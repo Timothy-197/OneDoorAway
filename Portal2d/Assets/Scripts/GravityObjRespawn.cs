@@ -29,6 +29,7 @@ public class GravityObjRespawn : MonoBehaviour
     private void Respawn()
     {
         this.transform.position = objRespawnPoint.position;
+        if (this.GetComponent<Rigidbody2D>() != null) this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 
 }
