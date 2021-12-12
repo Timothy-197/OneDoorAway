@@ -19,18 +19,21 @@ public class LevelManager : MonoBehaviour
         {0, "00_Start" },
         {1, "01_BasicTut" },
         {2, "02_Portal_tut" },
-        {3, "03_PortalRespawn_tut" },
+        {3, "03_portaltut" },
         {4, "04_GlassBreak" },
-        {5, "05_ShotAcross" },
-        {6, "06_SpeedSum 1" },
-        {7, "10_trigger_tut" },
-        {8, "11_trigger2" },
-        {9, "12_trigger3" },
-        {10, "13_trigger4" },
-        {11, "20_gravity_tut" },
-        {12, "21_gravity2" },
-        {13, "Level-Ending" },
-        {14, "Level-Bonus" }
+        {5, "05_shotAcross" },
+        {6, "06_SpeedNumTut" },
+        {7, "07_SpeedSum 1" },
+        {8, "08_PortalRespawn" },
+        {9, "09_SpeedSumFinal" },
+        {10, "10_trigger_tut" },
+        {11, "11_trigger2" },
+        {12, "12_trigger3" },
+        {13, "13_trigger4" },
+        {14, "14_gravity_tut" },
+        {15, "15_gravity2" },
+        {16, "Level-Ending" },
+        {17, "Level-Bonus" }
     };
 
     private void Awake()

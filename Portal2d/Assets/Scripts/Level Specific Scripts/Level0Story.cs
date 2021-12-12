@@ -24,9 +24,9 @@ public class Level0Story : MonoBehaviour
         yield return new WaitForSeconds(3f);
         storyText.text = "Wait... What is that sound...";
         yield return new WaitForSeconds(2.5f);
-        storyText.text = "It sounds like sea waves!";
+        storyText.text = "It sounds like waves!";
         yield return new WaitForSeconds(2.5f);
-        storyText.text = "Maybe I can get out following the sea wave...";
+        storyText.text = "Maybe I can get out following the wave...";
         yield return new WaitForSeconds(3f);
 
         Destroy(this.gameObject);
